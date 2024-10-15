@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Price Calculation</title>
+    <script src="style.js"></script>
+</head>
+<body>
+
+<!-- 1. Suppose You have an array of object Calculate 
+total price of each item and all items;  -->
+    <h1>Items and Prices:</h1>
+    <ul id="itemList"></ul>
+
+    <h2 id="totalPrice">Total Price:</h2>
+
+    <script>
+        const items = [
+          { name: "Apple", price: 10, quantity: 2 },
+          { name: "Banana", price: 5, quantity: 5 },
+          { name: "Orange", price: 8, quantity: 3 }
+        ];
+
+        let totalForAllItems = 0;
+        const itemList = document.getElementById("itemList");
+
+        items.forEach(item => {
+            const totalForItem = item.price * item.quantity;
+            totalForAllItems += totalForItem;
+
+            // Create list item for each product
+            const listItem = document.createElement("li");
+            listItem.textContent = `${item.name}: ${totalForItem}`;
+            itemList.appendChild(listItem);
+        });
+
+        // Display the total price
+        document.getElementById("totalPrice").textContent = `Total Price: ${totalForAllItems}`;
+    </script>
+
+<!-- 2. Create an object with properties name, email, password, age, 
+gender, city, country. 
+Check if age and country properties exist in object or not. 
+Also check firstName and lastName properties in object. -->
+
+    <h1>Object Checking:</h1>
+<script>
+        var plane1 = {
+        name: "hafsa", 
+        email: "hafsa.qureshi2001@gmail.com",
+        password:"12345",
+        age:"23",
+        gender:"female",
+        city:"karachi",
+        country:"pakistan",
+        }
+    var checkAge = "age" in plane1
+    var checkCntry = "country" in plane1
+   
+    document.write("Has age property: " + checkAge + "<br>");
+    document.write("Has country property: " + checkCntry + "<br>");
+
+    var checkFirstName = "firstName" in plane1;
+    var checkLastName = "lastName" in plane1;
+
+    document.write("Has firstName property: " + checkFirstName + "<br>");
+    document.write("Has lastName property: " + checkLastName + "<br>");
+</script>
+
+<!-- 3. Create a constructor function with some properties. Now 
+create multiple records using the constructor.  -->
+
+<h1>Constructer Function:</h1>
+<script>
+    function mobile(make, model, price, color , year) {
+        this.make = make;      
+        this.model = model;    
+        this.price = price;
+        this.color = color;   
+        this.year = year; 
+ }
+    var mobile1 = new mobile('iPhone', '16 Pro Max', '3.5lac', 'blue', '2024');
+    var mobile2 = new mobile('Samsung', 'Galaxy S24 FE', '1.5lac', 'gray', '2022');
+    var mobile3 = new mobile('Xiaomi', '14 Ultra', '80,000', 'sky blue', '2020');
+    var mobile4 = new mobile('Vivo', 'V27 Pro', '60,000', 'green', '2018');
+
+    document.write("Mobile 1: " + mobile1.make + " " + mobile1.model + ", " + mobile1.price + ", " + mobile1.color + ", " + mobile1.year + "<br>");
+    document.write("Mobile 2: " + mobile2.make + " " + mobile2.model + ", " + mobile2.price + ", " + mobile2.color + ", " + mobile2.year + "<br>");
+    document.write("Mobile 3: " + mobile3.make + " " + mobile3.model + ", " + mobile3.price + ", " + mobile3.color + ", " + mobile3.year + "<br>");
+    document.write("Mobile 4: " + mobile4.make + " " + mobile4.model + ", " + mobile4.price + ", " + mobile4.color + ", " + mobile4.year + "<br>");
+</script>
+
+<!-- 4. Suppose you want to check population of your area, their 
+educations and professions.   -->
+    <h1>Population Data Form</h1>
+
+    <form id="populationForm">
+    <label for="name">Name:</label>
+    <input type="text" id="name" required><br><br>
+
+    <label>Gender:</label>
+    <input type="radio" id="male" name="gender" value="Male" required> Male
+    <input type="radio" id="female" name="gender" value="Female"> Female
+    <input type="radio" id="other" name="gender" value="Other"> Other<br><br>
+
+    <label for="address">Address:</label>
+    <input type="text" id="address" required><br><br>
+
+    <label for="education">Education:</label>
+    <select id="education" required>
+        <option value="High School">High School</option>
+        <option value="Bachelor's">Bachelor's</option>
+        <option value="Master's">Master's</option>
+        <option value="PhD">PhD</option>
+    </select><br><br>
+
+    <label for="profession">Profession:</label>
+    <select id="profession" required>
+        <option value="Engineer">Engineer</option>
+        <option value="Doctor">Doctor</option>
+        <option value="Teacher">Teacher</option>
+        <option value="Artist">Artist</option>
+    </select><br><br>
+
+    <button type="submit">Save Record</button>
+</form>
+
+<h2>Saved Records:</h2>
+<ul id="recordsList"></ul>
+
+<script>
+    function Population(name, gender, address, education, profession) {
+        this.name = name;
+        this.gender = gender;
+        this.address = address;
+        this.education = education;
+        this.profession = profession;
+    }
+
+    let populationRecords = JSON.parse(localStorage.getItem('populationRecords')) || [];
+
+    function displayRecords() {
+        var recordsList = document.getElementById('recordsList');
+        recordsList.innerHTML = '';
+        populationRecords.forEach((record, index) => {
+            recordsList.innerHTML += `<li>${record.name}, ${record.gender}, ${record.address}, ${record.education}, ${record.profession}</li>`;
+        });
+    }
+
+    // Form submission event
+    document.getElementById('populationForm').addEventListener('submit', function(e) {
+        e.preventDefault(); 
+        var name = document.getElementById('name').value;
+        var gender = document.querySelector('input[name="gender"]:checked').value;
+        var address = document.getElementById('address').value;
+        var education = document.getElementById('education').value;
+        var profession = document.getElementById('profession').value;
+        var newRecord = new Population(name, gender, address, education, profession);
+        populationRecords.push(newRecord);
+        localStorage.setItem('populationRecords', JSON.stringify(populationRecords));
+
+        displayRecords();
+
+        document.getElementById('populationForm').reset();
+    });
+    displayRecords();
+</script>
+</body>
+</html>
